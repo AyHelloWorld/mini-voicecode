@@ -1,0 +1,62 @@
+#JSGF V1.0;
+/**
+ * JSGF Grammar for Hello World example
+ */
+grammar main;
+
+/* <number> = one | two | three | four | five | six | seven | eight | nine | oh | zero | dash; */
+<number> = one | two | three | fowers | fife | six | seven | eight | niner | zero ;
+<numbers> = number <number> <number>*;
+
+/* <letter> = arch | brov | char | dell | etch | fomp | goof | hark | ice | jinks | koop | lug | mowsh | nerb | ork | pooch | qush | rosh | sook | teek | unks | verge | wamp | trex | yang | zooch; */
+/* <letter> = arch | brave | char | dell | etch | fomby | goof | hark | ice | jinks | koop | lug | mouse | nerd | orca | pooch | quash | roast | soak | teak | uncle | verge | wombat | trek | yang | zoom; */
+<letter> = alpha
+| bravo
+| charlie
+| delta
+| echo
+| foxtrot
+| golf
+| hotel
+| india
+| juliet
+| kilo
+| lima
+| mike
+| november
+| oscar
+| papa
+| quebec
+| romeo
+| sierra
+| tango
+| uniform
+| victor
+| whiskey
+| x-ray
+| yankee
+| zulu;
+
+<letters> = spell <letter> <letter>*;
+
+<edit> = undo | redo ; // | correct that { correct-that } | oops that { oops-that } | forget that { forget-that } ;
+
+<key> = enter | delete | tab | space | page up { page-up } | page down { page-down } | left | right | up | down | escape | space bar { space-bar } ;
+
+<mod> = shift | command | control | alternate ;
+
+<symbol> = colon | semi colon { semi-colon } | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket { left-bracket } | right bracket { right-bracket } | left brace { left-brace } | right brace { right-brace } | left parenthesis { left-parenthesis } | right parenthesis { right-parenthesis } | tiled | quote | back quote | double quote | left angle { left-angle } | right angle { right-angle } | bang | at | hash | dollars | percent | carrot | ampersand | star | underscore ;
+
+<symbol_1> = symbol <symbol> ;
+
+<keys> = key <mod>* (<key> | <letter> | <number> | <symbol>) ;
+
+<type> = type (<key> | <letter> | <number> | <symbol>)+ ;
+
+<click> = (release click {release-click}) | (click [hold | double | triple] [left | right | middle]) ;
+
+<action> = <symbol_1> | <letters> | <numbers> | <keys> | <edit> | <type> | <click> ;
+
+<repeat> = repeat <number>* [<action>] ;
+
+public <main> = <action> | <repeat> ;
