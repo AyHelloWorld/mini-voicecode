@@ -111,50 +111,51 @@ letter_map = {
 
 
 number_map = {
-"one" : 1,
-"two" : 2,
-"three" : 3,
-"fowers" : 4,
-"fife" : 5,
-"six" : 6,
-"seven" : 7,
-"eight" : 8,
-"niner" : 9,
-"zero" : 0
-}
+  "one" : "1",
+  "two" : "2",
+  "three" : "3",
+  "fowers" : "4",
+  "fife" : "5",
+  "six" : "6",
+  "seven" : "7",
+  "eight" : "8",
+  "niner" : "9",
+  "zero" : "0",
+  }
 
 symbol_map = {
-        "colon"             : ":",
+        "pipe"              : ("|", [key.MOD_SHIFT]),
+        "colon"             : (":", [key.MOD_SHIFT]),
         "semi-colon"        : ";",
         "dot"               : ".",
         "comma"             : ",",
         "dash"              : "-",
-        "plus"              : "+",
+        "plus"              : ("+", [key.MOD_SHIFT]),
         "equal"             : "=",
         "slash"             : "/",
         "backslash"         : "\\",
-        "question-mark"     : "?",
+        "question-mark"     : ("?", [key.MOD_SHIFT]),
         "left-bracket"      : "[",
         "right-bracket"     : "]",
-        "left-brace"        : "{",
-        "right-brace"       : "}",
-        "left-parenthesis"  : "(",
-        "right-parenthesis" : ")",
-        "tiled"             : "~",
+        "left-brace"        : ("{", [key.MOD_SHIFT]),
+        "right-brace"       : ("}", [key.MOD_SHIFT]),
+        "left-parenthesis"  : ("(", [key.MOD_SHIFT]),
+        "right-parenthesis" : (")", [key.MOD_SHIFT]),
+        "tiled"             : ("~", [key.MOD_SHIFT]),
         "quote"             : "'",
         "back-quote"        : "`",
         "double-quote"      : "\"",
-        "left-angle"        : "<",
-        "right-angle"       : ">",
-        "bang"              : "!",
-        "at"                : "@",
-        "hash"              : "#",
-        "dollars"           : "$",
-        "percent"           : "%",
-        "carrot"            : "^",
-        "ampersand"         : "&",
-        "star"              : "*",
-        "underscore"        : "_",
+        "left-angle"        : ("<", [key.MOD_SHIFT]),
+        "right-angle"       : (">", [key.MOD_SHIFT]),
+        "bang"              : ("!", [key.MOD_SHIFT]),
+        "at"                : ("@", [key.MOD_SHIFT]),
+        "hash"              : ("#", [key.MOD_SHIFT]),
+        "dollars"           : ("$", [key.MOD_SHIFT]),
+        "percent"           : ("%", [key.MOD_SHIFT]),
+        "carrot"            : ("^", [key.MOD_SHIFT]),
+        "ampersand"         : ("&", [key.MOD_SHIFT]),
+        "star"              : ("*", [key.MOD_SHIFT]),
+        "underscore"        : ("_", [key.MOD_SHIFT]),
         "space"     : " ",
         "enter"     : "\n",
         "tab"       : "\t",
@@ -178,13 +179,15 @@ mod_map = {
         "alternate" :  key.MOD_ALT ,
         }
 
+mod_set = mod_map.values()
+
 def dict_union(ds):
     r = {}
     for d in ds:
       r.update(d)
     return r
 
-all_map = dict_union([mod_map , key_map , symbol_map ,number_map,  letter_map ])
+all_map = dict_union([mod_map , key_map , symbol_map ,number_map,  letter_map, mod_map ])
 
 prefixes = set(["semi", "left", "right", "back", "question", "page"])
 
@@ -233,11 +236,26 @@ def do_click(arguments):
                 mouse.click(button)
 
 def do_actions(acts):
+          mod = []
+          mods = 0
 	  for a in acts:
+            if isinstance(a, tuple):
+		(a, mod) = a
+
+            for k in mod:
+              mods |= k
+
 	    if isinstance(a, str):
-		key.type_string(a)
+              for x in a:
+		key.tap(unicode(a), long(mods))
+                sleep(0.1)
 	    elif isinstance(a, int):
-		key.tap(long(a))
+              if a in mod_set:
+                mods |= a
+              else:
+		key.tap(long(a), long(mods))
+                sleep(0.1)
+
 
 def react_full_result(s):
   results_list = s.split()
