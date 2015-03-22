@@ -45,13 +45,13 @@ grammar main;
 
 <mod> = shift | command | control | alternate ;
 
-<symbol> = enter |tab | space |colon | semi colon { semi-colon } | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket { left-bracket } | right bracket { right-bracket } | left brace { left-brace } | right brace { right-brace } | left parenthesis { left-parenthesis } | right parenthesis { right-parenthesis } | tiled | quote | back quote | double quote | left angle { left-angle } | right angle { right-angle } | bang | hash | dollars | percent | carrot | ampersand | star | underscore | pipe ; // at | 
+<symbol> = enter | tabby | space |colon | semi colon { semi-colon } | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket { left-bracket } | right bracket { right-bracket } | left brace { left-brace } | right brace { right-brace } | left parenthesis { left-parenthesis } | right parenthesis { right-parenthesis } | tiled | quote | back quote | double quote | left angle { left-angle } | right angle { right-angle } | bang | hash | dollars | percent | carrot | ampersand | star | underscore | pipe ; // at | 
 
 <symbol_1> = symbol <symbol> ;
 
 <keys> = key <mod>* (<key> | <letter> | <number> | <symbol>) ;
 
-<hot> = slash | colon | escape | india | alpha | <mod> | hot;
+<hot> = slash | colon | escape | india | alpha | <mod> | type;
 
 <type> = <hot> (<key> | <letter> | <number> | <symbol>)+ ;
 

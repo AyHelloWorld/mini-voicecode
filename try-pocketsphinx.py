@@ -158,7 +158,7 @@ symbol_map = {
         "underscore"        : ("_", [key.MOD_SHIFT]),
         "space"     : " ",
         "enter"     : "\n",
-        "tab"       : "\t",
+        "tabby"     : "\t",
         }
 
 key_map = {
@@ -240,20 +240,23 @@ def do_actions(acts):
           mods = 0
 	  for a in acts:
             if isinstance(a, tuple):
-		(a, mod) = a
+		(a, mod_list) = a
+                mod1 = reduce(lambda a, b: a | b, mod_list, 0)
+            else:
+              mod1 = 0
 
             for k in mod:
               mods |= k
 
 	    if isinstance(a, str):
               for x in a:
-		key.tap(unicode(a), long(mods))
+		key.tap(unicode(a), long(mods | mod1))
                 sleep(0.1)
 	    elif isinstance(a, int):
               if a in mod_set:
                 mods |= a
               else:
-		key.tap(long(a), long(mods))
+		key.tap(long(a), long(mods | mod1))
                 sleep(0.1)
 
 
@@ -262,8 +265,8 @@ def react_full_result(s):
   if len(results_list) == 0:
     return
   print results_list
-  if results_list[0] == "click":
-    do_click(results_list[1:])
+  if results_list[-1] == "click":
+    do_click(results_list)
   else:
     actions1 = filter_bullshit(results_list)
     actions2 = fix_symbols(actions1)
