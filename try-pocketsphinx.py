@@ -7,7 +7,7 @@ from os import environ, path
 from itertools import izip
 import sys
 
-import platform_mac as platform
+# import platform_mac as platform
 from autopy import mouse
 from autopy import key
 from time import sleep
@@ -94,7 +94,7 @@ letter_map = {
         "kilo"     : "k",
         "lima"     : "l",
         "mike"     : "m",
-        "november" : "e",
+        "november" : "n",
         "oscar"    : "o",
         "papa"     : "p",
         "quebec"   : "q",
@@ -162,8 +162,8 @@ symbol_map = {
 
 key_map = {
         "delete"    : key.K_BACKSPACE,
-        "page up"   : key.K_PAGEUP,
-        "page down" : key.K_PAGEDOWN,
+        "page-up"   : key.K_PAGEUP,
+        "page-down" : key.K_PAGEDOWN,
         "left"      : key.K_LEFT,
         "right"     : key.K_RIGHT,
         "up"        : key.K_UP,
@@ -178,52 +178,35 @@ mod_map = {
         "alternate" :  key.MOD_ALT ,
         }
 
-prefixes = set(["semi", "left", "right", "back", "question"])
-
-def fix_symbols(s):
-    if len(s) == 1:
-        return s
-    r = []
-    skip_next=False
-    for (a,b) in (zip(s[:len(s)-1],s[1:])):
-        if skip_next:
-            skip_next=False
-        elif a in prefixes:
-            skip_next=True
-            r.append(a + "-" + b)
-        elif b in prefixes:
-            r.append(a)
-        else:
-            r.append(a)
-            r.append(b)
+def dict_union(ds):
+    r = {}
+    for d in ds:
+      r.update(d)
     return r
 
+all_map = dict_union([mod_map , key_map , symbol_map ,number_map,  letter_map ])
+
+prefixes = set(["semi", "left", "right", "back", "question", "page"])
+
+bullshit = set([ "number",  "key",  "spell",  "symbol" ])
+
+def filter_bullshit(words):
+  for word in words:
+    if word not in bullshit:
+      yield word
+
+def fix_symbols(xs):
+    for x in xs:
+      if x in prefixes:
+        yield x + "-" + xs.next()
+      else:
+        yield x
 
 
-def react_full_result(s):
-    results_list = s.split()
-    print results_list
-    if len(results_list) == 0:
-        return
-    (command, arguments) = (results_list[0], results_list[1:])
-    if command == "number":
-        numbers = ''.join(map(str, map(number_map.get, arguments)))
-        print "NUMBER:", numbers
-        key.type_string(numbers)
-    elif command == "key":
-        k = arguments[0]
-        print "key code:", k
-        key.tap(k)
-    elif command == "spell":
-        keys = ''.join(map(str, map(letter_map.get, arguments)))
-        print "keys:", keys
-        key.type_string(keys)
-    elif command == "symbol":
-        arguments = fix_symbols(arguments)
-        keys = ''.join(map(str, map(symbol_map.get, arguments)))
-        print "keys:", keys
-        key.type_string(keys)
-    elif command == "click":
+
+
+def do_click(arguments):
+        print "mouse:", arguments
         if "right" in arguments:
             button = mouse.RIGHT_BUTTON
         elif "middle" in arguments:
@@ -236,11 +219,38 @@ def react_full_result(s):
             mouse.toggle(False, button)
         else:
             if "double" in arguments:
-                mouse.dblclick(button)
+                # TODO mac:
+		# mouse.dblclick(button)
+                mouse.click(button)
+                mouse.click(button)
             elif "triple" in arguments:
-                mouse.dblclick(button)
+		# TODO mac:
+                # mouse.tplclick(button)
+                mouse.click(button)
+                mouse.click(button)
+                mouse.click(button)
             else:
                 mouse.click(button)
+
+def do_actions(acts):
+	  for a in acts:
+	    if isinstance(a, str):
+		key.type_string(a)
+	    elif isinstance(a, int):
+		key.tap(long(a))
+
+def react_full_result(s):
+  results_list = s.split()
+  if len(results_list) == 0:
+    return
+  print results_list
+  if results_list[0] == "click":
+    do_click(results_list[1:])
+  else:
+    actions1 = filter_bullshit(results_list)
+    actions2 = fix_symbols(actions1)
+    actions3 = map(all_map.get, actions2)
+    do_actions(actions3)
 
 
 def react_tokens(tokens):
