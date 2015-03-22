@@ -133,7 +133,7 @@ symbol_map = {
         "equal"             : "=",
         "slash"             : "/",
         "backslash"         : "\\",
-        "question mark"     : "?",
+        "question-mark"     : "?",
         "left-bracket"      : "[",
         "right-bracket"     : "]",
         "left-brace"        : "{",
@@ -155,7 +155,50 @@ symbol_map = {
         "ampersand"         : "&",
         "star"              : "*",
         "underscore"        : "_",
+        "space"     : " ",
+        "enter"     : "\n",
+        "tab"       : "\t",
         }
+
+key_map = {
+        "delete"    : key.K_BACKSPACE,
+        "page up"   : key.K_PAGEUP,
+        "page down" : key.K_PAGEDOWN,
+        "left"      : key.K_LEFT,
+        "right"     : key.K_RIGHT,
+        "up"        : key.K_UP,
+        "down"      : key.K_DOWN,
+        "escape"    : key.K_ESCAPE
+        }
+
+mod_map = {
+        "shift"     :  key.MOD_SHIFT ,
+        "command"   :  key.MOD_META ,
+        "control"   :  key.MOD_CONTROL ,
+        "alternate" :  key.MOD_ALT ,
+        }
+
+prefixes = set(["semi", "left", "right", "back", "question"])
+
+def fix_symbols(s):
+    if len(s) == 1:
+        return s
+    r = []
+    skip_next=False
+    for (a,b) in (zip(s[:len(s)-1],s[1:])):
+        if skip_next:
+            skip_next=False
+        elif a in prefixes:
+            skip_next=True
+            r.append(a + "-" + b)
+        elif b in prefixes:
+            r.append(a)
+        else:
+            r.append(a)
+            r.append(b)
+    return r
+
+
 
 def react_full_result(s):
     results_list = s.split()
@@ -167,8 +210,17 @@ def react_full_result(s):
         numbers = ''.join(map(str, map(number_map.get, arguments)))
         print "NUMBER:", numbers
         key.type_string(numbers)
+    elif command == "key":
+        k = arguments[0]
+        print "key code:", k
+        key.tap(k)
     elif command == "spell":
         keys = ''.join(map(str, map(letter_map.get, arguments)))
+        print "keys:", keys
+        key.type_string(keys)
+    elif command == "symbol":
+        arguments = fix_symbols(arguments)
+        keys = ''.join(map(str, map(symbol_map.get, arguments)))
         print "keys:", keys
         key.type_string(keys)
     elif command == "click":
