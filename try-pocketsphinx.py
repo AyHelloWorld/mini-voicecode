@@ -1,5 +1,43 @@
 #!/usr/local/bin/python
 
+# TODO
+#
+# tiled => tilda
+# Mac doesn't hit enter or shift-symbols
+# multiprocessing
+# snippets
+# training
+# save compressed samples
+# undo etc
+# platform work-arounds
+# fix autopy bugs
+# dragon integration
+# Mac command-tab issue
+# threshold mic
+# try other acoustic models
+# made-up word dictionary
+# stats: command frequency and start-to-end time
+# gui
+# multi grammers
+# hot words: snooze, awaken, done
+# refactor
+# supress low-scoring commands
+# launch, switch applications
+# application context sensitivity
+# install instructions in readme
+# aliases to generate grammar
+# git shorcuts
+# up, down, left, right -- aliases for better recognition
+# use partial recognition for responsiveness
+# ctags/autocomplete/sourcegraph integration
+# shorter keypress delays
+# audio and speech feedback
+# single keystroke undo for terminal, vim, other
+# mac double, tripple click
+# command-click
+# homophone-aware autocompletion
+# homophone quick cycling (right, write; equals, `=`, `==`)
+
 from pocketsphinx import *
 import pyaudio
 
@@ -11,6 +49,24 @@ import sys
 from autopy import mouse
 from autopy import key
 from time import sleep
+
+# Platform workarounds
+
+from platform import system
+
+def double_click(button):
+  mouse.click(button)
+  mouse.click(button)
+  
+def triple_click(button):
+  mouse.click(button)
+  mouse.click(button)
+  mouse.click(button)
+
+if system() == 'Darwin':
+    global double_click, triple_click
+    double_click = mouse.dblclick
+    triple_click = mouse.tplclick
 
 MODELDIR = "/usr/local//share/pocketsphinx/model/"
 
@@ -72,7 +128,7 @@ def listen(decoder):
                         # TODO:Make this work like the partial results
                         if  decoder.hyp().hypstr != '':
                             print 'Stream decoding result:', decoder.hyp().hypstr
-                            yield (FULL_RESULT, partial_result)
+                            yield (FULL_RESULT, decoder.hyp().hypstr)
                             partial_result = ""
                     except AttributeError:
                         pass
@@ -223,15 +279,12 @@ def do_click(arguments):
         else:
             if "double" in arguments:
                 # TODO mac:
-		# mouse.dblclick(button)
-                mouse.click(button)
-                mouse.click(button)
+                double_click(button)
             elif "triple" in arguments:
 		# TODO mac:
                 # mouse.tplclick(button)
-                mouse.click(button)
-                mouse.click(button)
-                mouse.click(button)
+                print "trace triple_click"
+                triple_click(button)
             else:
                 mouse.click(button)
 
@@ -258,6 +311,8 @@ def do_actions(acts):
               else:
 		key.tap(long(a), long(mods | mod1))
                 sleep(0.1)
+            else:
+                print "do_actions can't handle", a, "of type", type(a)
 
 
 def react_full_result(s):
