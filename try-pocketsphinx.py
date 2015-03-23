@@ -5,6 +5,9 @@
 # tiled => tilda
 # Mac doesn't hit enter or shift-symbols
 # multiprocessing
+      # File "/Library/Python/2.7/site-packages/pyaudio.py", line 605, in read
+      #   return pa.read_stream(self._stream, num_frames)
+      # IOError: [Errno Input overflowed] -9981
 # snippets
 # training
 # save compressed samples
@@ -37,6 +40,7 @@
 # command-click
 # homophone-aware autocompletion
 # homophone quick cycling (right, write; equals, `=`, `==`)
+# tiled too close to delta; try homey
 
 from pocketsphinx import *
 import pyaudio
@@ -63,8 +67,18 @@ def triple_click(button):
   mouse.click(button)
   mouse.click(button)
 
+
+def linux_key_tap(k, m=0):
+  print "hello linux key tap", k, m
+  if k in shifted:
+    key.tap(unshifted[k], m | key.MOD_SHIFT)
+  else:
+    key.tap(k, m)
+
+key_tap = linux_key_tap
+
 if system() == 'Darwin':
-    global double_click, triple_click
+    global double_click, triple_click, key_tap
     double_click = mouse.dblclick
     triple_click = mouse.tplclick
 
@@ -180,42 +194,47 @@ number_map = {
   }
 
 symbol_map = {
-        "pipe"              : ("|", [key.MOD_SHIFT]),
-        "colon"             : (":", [key.MOD_SHIFT]),
+        "pipe"              : "|",
+        "colon"             : ":",
         "semi-colon"        : ";",
         "dot"               : ".",
         "comma"             : ",",
         "dash"              : "-",
-        "plus"              : ("+", [key.MOD_SHIFT]),
+        "plus"              : "+",
         "equal"             : "=",
         "slash"             : "/",
         "backslash"         : "\\",
-        "question-mark"     : ("?", [key.MOD_SHIFT]),
+        "question-mark"     : "?",
         "left-bracket"      : "[",
         "right-bracket"     : "]",
-        "left-brace"        : ("{", [key.MOD_SHIFT]),
-        "right-brace"       : ("}", [key.MOD_SHIFT]),
-        "left-parenthesis"  : ("(", [key.MOD_SHIFT]),
-        "right-parenthesis" : (")", [key.MOD_SHIFT]),
-        "tiled"             : ("~", [key.MOD_SHIFT]),
+        "left-brace"        : "{",
+        "right-brace"       : "}",
+        "left-parenthesis"  : "(",
+        "right-parenthesis" : ")",
+        "tiled"             : "~",
         "quote"             : "'",
         "back-quote"        : "`",
-        "double-quote"      : ("\"",[key.MOD_SHIFT]),
-        "left-angle"        : ("<", [key.MOD_SHIFT]),
-        "right-angle"       : (">", [key.MOD_SHIFT]),
-        "bang"              : ("!", [key.MOD_SHIFT]),
-        "at"                : ("@", [key.MOD_SHIFT]),
-        "hash"              : ("#", [key.MOD_SHIFT]),
-        "dollars"           : ("$", [key.MOD_SHIFT]),
-        "percent"           : ("%", [key.MOD_SHIFT]),
-        "carrot"            : ("^", [key.MOD_SHIFT]),
-        "ampersand"         : ("&", [key.MOD_SHIFT]),
-        "star"              : ("*", [key.MOD_SHIFT]),
-        "underscore"        : ("_", [key.MOD_SHIFT]),
+        "double-quote"      : "\"",
+        "left-angle"        : "<",
+        "right-angle"       : ">",
+        "bang"              : "!",
+        "at"                : "@",
+        "hash"              : "#",
+        "dollars"           : "$",
+        "percent"           : "%",
+        "carrot"            : "^",
+        "ampersand"         : "&",
+        "star"              : "*",
+        "underscore"        : "_",
         "space"     : " ",
-        "enter"     : "\n",
+        "enter"     : key.K_RETURN,
         "tabby"     : "\t",
         }
+
+shifted        = list(u"""~!@#$%^&*()_+{}|:"<>?""")
+unshifted_list = list(u"""`1234567890-=[]\\;',./""")
+
+unshifted = dict([(k,v) for (k,v) in zip(shifted, unshifted_list)])
 
 key_map = {
         "delete"    : key.K_BACKSPACE,
@@ -245,7 +264,7 @@ def dict_union(ds):
 
 all_map = dict_union([mod_map , key_map , symbol_map ,number_map,  letter_map, mod_map ])
 
-prefixes = set(["semi", "left", "right", "back", "question", "page"])
+prefixes = set(["double", "semi", "left", "right", "back", "question", "page"])
 
 bullshit = set([ "number",  "key",  "spell",  "symbol" ])
 
@@ -278,12 +297,8 @@ def do_click(arguments):
             mouse.toggle(False, button)
         else:
             if "double" in arguments:
-                # TODO mac:
                 double_click(button)
             elif "triple" in arguments:
-		# TODO mac:
-                # mouse.tplclick(button)
-                print "trace triple_click"
                 triple_click(button)
             else:
                 mouse.click(button)
@@ -303,13 +318,13 @@ def do_actions(acts):
 
 	    if isinstance(a, str):
               for x in a:
-		key.tap(unicode(a), long(mods | mod1))
+		key_tap(unicode(a), long(mods | mod1))
                 sleep(0.1)
 	    elif isinstance(a, int):
               if a in mod_set:
                 mods |= a
               else:
-		key.tap(long(a), long(mods | mod1))
+		key_tap(long(a), long(mods | mod1))
                 sleep(0.1)
             else:
                 print "do_actions can't handle", a, "of type", type(a)
