@@ -41,11 +41,11 @@ grammar main;
 
 <edit> = undo | redo | correct that { correct-that } | oops that { oops-that } | forget that { forget-that } ;
 
-<key> =  delete |  page up { page-up } | page down { page-down } | left | right | escape ; // up | down | 
+<key> =  delete |  page up { page-up } | page down { page-down } | left | right | escape | upper | downer ; // up | down | 
 
 <mod> = shift | command | control | alternate ;
 
-<symbol> = enter | tabby | space |colon | semi colon { semi-colon } | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket { left-bracket } | right bracket { right-bracket } | left brace { left-brace } | right brace { right-brace } | left parenthesis { left-parenthesis } | right parenthesis { right-parenthesis } | tiled | quote | back quote | double quote | left angle { left-angle } | right angle { right-angle } | bang | hash | dollars | percent | carrot | ampersand | star | underscore | pipe ; // at | 
+<symbol> = enter | tabby | space |colon | semi colon { semi-colon } | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket { left-bracket } | right bracket { right-bracket } | left brace { left-brace } | right brace { right-brace } | left parenthesis { left-parenthesis } | right parenthesis { right-parenthesis } | tiled | quote | back quote | double quote | left angle { left-angle } | right angle { right-angle } | bang | hash | dollars | percent | carrot | ampersand | star | underscore | pipe | batty ; // at | 
 
 <symbol_1> = symbol <symbol> ;
 
@@ -57,7 +57,9 @@ grammar main;
 
 <click> = (release click {release-click}) | ([hold | double | triple] [right | middle] click) ;
 
-<action> = <symbol_1> | <letters> | <numbers> | <keys> | <edit> | <type> | <click> ;
+<control> = snooze | awaken  | lowered ;
+
+<action> = <symbol_1> | <letters> | <numbers> | <keys> | <edit> | <type> | <click>  | <control>;
 
 <repeat> = repeat <number>* [<action>] ;
 

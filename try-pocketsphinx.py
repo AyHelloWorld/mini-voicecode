@@ -2,6 +2,8 @@
 
 # TODO
 #
+# forgets to let go the control keys
+# generate true scrolling events
 # tiled => tilda
 # Mac doesn't hit enter or shift-symbols
 # multiprocessing
@@ -41,13 +43,9 @@
 # homophone-aware autocompletion
 # homophone quick cycling (right, write; equals, `=`, `==`)
 # tiled too close to delta; try homey
+# Implement  click cut copy paste
 
-from pocketsphinx import *
-import pyaudio
-
-from os import environ, path
-from itertools import izip
-import sys
+import listener
 
 # import platform_mac as platform
 from autopy import mouse
@@ -81,74 +79,6 @@ if system() == 'Darwin':
     global double_click, triple_click, key_tap
     double_click = mouse.dblclick
     triple_click = mouse.tplclick
-
-MODELDIR = "/usr/local//share/pocketsphinx/model/"
-
-# Dead code right here
-def print10best(decoder):
-    # Access N best decodings.
-    print 'Best 10 hypothesis: '
-    for best, i in izip(decoder.nbest(), range(10)):
-    	print best.hyp().best_score, best.hyp().hypstr
-
-def configure_sphinx():
-    # Create a decoder with certain model
-    config = Decoder.default_config()
-    config.set_string('-hmm', path.join(MODELDIR, 'en-us/en-us'))
-    # config.set_string('-lm', path.join(MODELDIR, 'en-us/en-us.lm.dmp'))
-    config.set_string('-dict', path.join(MODELDIR, 'en-us/cmudict-en-us.dict'))
-    config.set_string('-jsgf', './my.jsgf')
-    config.set_string('-dictcase', 'yes')
-    config.set_string('-agc', 'max')
-    config.set_float('-fillprob', 50)
-
-    return Decoder(config)
-
-PARTIAL_RESULT = 0
-FULL_RESULT = 1
-
-def listen(decoder):
-    p = pyaudio.PyAudio()
-
-    stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=2048)
-    stream.start_stream()
-    in_speech_bf = True
-    decoder.start_utt()
-
-    partial_result = ""
-    while True:
-        buf = stream.read(2048)
-        if buf:
-            decoder.process_raw(buf, False, False)
-            try:
-                new_partial_result = decoder.hyp().hypstr
-                if  new_partial_result != '':
-                    if new_partial_result != partial_result:
-                        # yield new_partial_result[len(partial_result):].strip()
-                        yield (PARTIAL_RESULT, new_partial_result)
-                        partial_result = new_partial_result
-                    # print 'Partial decoding result:', decoder.hyp().hypstr
-                    # print10best(decoder)
-            except AttributeError:
-                pass
-            if decoder.get_in_speech():
-                sys.stdout.write('.')
-                sys.stdout.flush()
-            if decoder.get_in_speech() != in_speech_bf:
-                in_speech_bf = decoder.get_in_speech()
-                if not in_speech_bf:
-                    decoder.end_utt()
-                    try:
-                        # TODO:Make this work like the partial results
-                        if  decoder.hyp().hypstr != '':
-                            print 'Stream decoding result:', decoder.hyp().hypstr
-                            yield (FULL_RESULT, decoder.hyp().hypstr)
-                            partial_result = ""
-                    except AttributeError:
-                        pass
-                    decoder.start_utt()
-        else:
-            break
 
 letter_map = {
         "alpha"    : "a",
@@ -218,7 +148,7 @@ symbol_map = {
         "left-angle"        : "<",
         "right-angle"       : ">",
         "bang"              : "!",
-        "at"                : "@",
+        "batty"             : "@",
         "hash"              : "#",
         "dollars"           : "$",
         "percent"           : "%",
@@ -242,8 +172,8 @@ key_map = {
         "page-down" : key.K_PAGEDOWN,
         "left"      : key.K_LEFT,
         "right"     : key.K_RIGHT,
-        "up"        : key.K_UP,
-        "down"      : key.K_DOWN,
+        "upper"        : key.K_UP,
+        "downer"      : key.K_DOWN,
         "escape"    : key.K_ESCAPE
         }
 
@@ -348,15 +278,14 @@ def react_tokens(tokens):
     for token in tokens:
         print token
         (result_type, result_string) = token
-        if result_type == FULL_RESULT:
+        if result_type == listener.FULL_RESULT:
             react_full_result(result_string)
 
-def listen_speech():
-    decoder = configure_sphinx()
-    tokens = listen(decoder)
-    react_tokens(tokens)
+def listen_speech(react):
+    tokens = listener.listen()
+    react(tokens)
     # We should never arrive here
     decoder.end_utt()
     print 'An Error occured:', decoder.hyp().hypstr
 
-listen_speech()
+listen_speech(react_tokens)
