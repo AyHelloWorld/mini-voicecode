@@ -51,7 +51,7 @@ grammar main;
 
 <keys> = key <mod>* (<key> | <letter> | <number> | <symbol>) ;
 
-<hot> = slash | colon | escape | india | alpha | <mod> | type;
+<hot> = slash | colon | escape | india | alpha | <mod>+ | type | space;
 
 <type> = <hot> (<key> | <letter> | <number> | <symbol>)+ ;
 

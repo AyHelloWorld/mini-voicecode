@@ -144,7 +144,7 @@ symbol_map = {
         "tiled"             : ("~", [key.MOD_SHIFT]),
         "quote"             : "'",
         "back-quote"        : "`",
-        "double-quote"      : "\"",
+        "double-quote"      : ("\"",[key.MOD_SHIFT]),
         "left-angle"        : ("<", [key.MOD_SHIFT]),
         "right-angle"       : (">", [key.MOD_SHIFT]),
         "bang"              : ("!", [key.MOD_SHIFT]),
