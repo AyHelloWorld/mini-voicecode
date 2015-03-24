@@ -46,6 +46,8 @@
 # Implement  click cut copy paste
 
 import listener
+import siri
+import filters
 
 # import platform_mac as platform
 from autopy import mouse
@@ -233,6 +235,12 @@ def do_click(arguments):
             else:
                 mouse.click(button)
 
+def type_string(s, mod=0):
+              for x in s:
+		key_tap(unicode(x), mod)
+
+
+siri_words = ['lowered', 'awaken']
 def do_actions(acts):
           mod = []
           mods = 0
@@ -247,9 +255,7 @@ def do_actions(acts):
               mods |= k
 
 	    if isinstance(a, str):
-              for x in a:
-		key_tap(unicode(a), long(mods | mod1))
-                sleep(0.1)
+              type_string(a, long(mods | mod1))
 	    elif isinstance(a, int):
               if a in mod_set:
                 mods |= a
@@ -259,13 +265,44 @@ def do_actions(acts):
             else:
                 print "do_actions can't handle", a, "of type", type(a)
 
+def apply_filter(filt, phrase):
+  f = filters.filters[filt]
+  return f(phrase)
+
+siri_filter=None
+
+def start_siri(filt):
+  global siri_filter
+  siri_filter = filt
+  siri.pop_mini_editor(filt)
+
+def finish_siri():
+  phrase = siri.finish()
+  filtered = apply_filter(siri_filter, phrase)
+  print 'phrase', phrase, 'filtered', filtered
+  sleep(1)
+  type_string(filtered)
+
+
+# In case you want to finish the mini editor and discard the results.
+def cancel_siri():
+  siri.finish()
+
+def do_siri(s):
+  if s == 'lowered':
+    start_siri(s)
+  elif s == 'awaken':
+    finish_siri()
 
 def react_full_result(s):
   results_list = s.split()
-  if len(results_list) == 0:
-    return
   print results_list
-  if results_list[-1] == "click":
+
+  if s in siri_words:
+    do_siri(s)
+  elif len(results_list) == 0:
+    return
+  elif results_list[-1] == "click":
     do_click(results_list)
   else:
     actions1 = filter_bullshit(results_list)
