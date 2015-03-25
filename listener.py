@@ -33,7 +33,7 @@ def configure_sphinx():
     config.set_string('-hmm', path.join(MODELDIR, 'en-us/en-us'))
     # config.set_string('-lm', path.join(MODELDIR, 'en-us/en-us.lm.dmp'))
     config.set_string('-dict', path.join(MODELDIR, 'en-us/cmudict-en-us.dict'))
-    config.set_string('-jsgf', './my.jsgf')
+    config.set_string('-jsgf', './beginner/grammar')
     config.set_string('-dictcase', 'yes')
     config.set_string('-agc', 'max')
     config.set_float('-fillprob', 50)
@@ -43,10 +43,10 @@ def configure_sphinx():
 PARTIAL_RESULT = 0
 FULL_RESULT = 1
 
-sleepy_words = ['snooze', 'lowered']
+sleepy_words = ['snooze', 'lowered', 'hired']
 wakey_words = ['awaken']
 
-def listen():
+def listen(token_queue):
     paused = False
 
     awakener = configure_awaken()
@@ -69,7 +69,7 @@ def listen():
                 if  new_partial_result != '':
                     if new_partial_result != partial_result:
                         # yield new_partial_result[len(partial_result):].strip()
-                        yield (PARTIAL_RESULT, new_partial_result)
+                        token_queue.put_nowait((PARTIAL_RESULT, new_partial_result))
                         partial_result = new_partial_result
                     # print 'Partial decoding result:', decoder.hyp().hypstr
                     # print10best(decoder)
@@ -87,7 +87,7 @@ def listen():
                         res = decoder.hyp().hypstr 
                         if  res != '':
                             print 'Stream decoding result:', res
-                            yield (FULL_RESULT, res)
+                            token_queue.put_nowait((FULL_RESULT, res))
                             for word in res.split():
                                 if word in sleepy_words:
                                     decoder = awakener

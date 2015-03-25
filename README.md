@@ -19,3 +19,21 @@ paplay tst.wav
 ```
 
 Finally: `./try-pocketsphinx.py`
+
+OS X install
+------------
+
+```
+brew install wxmac wxpython cmu-sphinxbase cmu-pocketsphinx
+```
+
+Install PyAudio from http://people.csail.mit.edu/hubert/pyaudio/
+
+Get my fork of `autopy`: `git clone https://github.com/gitfoxi/autopy.git`
+
+Build with: `python setup.py install --user`
+
+Adjust your microphone levels. A good headset microphone is
+recommended.
+
+You can use the famous line-in program to check what you sound like. https://www.rogueamoeba.com/freebies/

@@ -2,10 +2,14 @@
 
 # TODO
 #
+# Phonetic edit distance for words and phrases
+# Restore microphone levels after Siri
+# Command and control are often mistaken for each other
+# Beginners method with just numbers and symbols And Mouse
+# When I say shift Alpha, I don't want '>'
 # forgets to let go the control keys
 # generate true scrolling events
 # tiled => tilda
-# Mac doesn't hit enter or shift-symbols
 # multiprocessing
       # File "/Library/Python/2.7/site-packages/pyaudio.py", line 605, in read
       #   return pa.read_stream(self._stream, num_frames)
@@ -48,6 +52,8 @@
 import listener
 import siri
 import filters
+
+from multiprocessing import Process, Queue 
 
 # import platform_mac as platform
 from autopy import mouse
@@ -160,11 +166,12 @@ symbol_map = {
         "underscore"        : "_",
         "space"     : " ",
         "enter"     : key.K_RETURN,
-        "tabby"     : "\t",
+        "tabby"     : 48,
+        #"tabby"     : "\t",
         }
 
-shifted        = list(u"""~!@#$%^&*()_+{}|:"<>?""")
-unshifted_list = list(u"""`1234567890-=[]\\;',./""")
+shifted        = list(u"""ABCDEFGHIJKLMNOPQRSTUVWYZ~!@#$%^&*()_+{}|:"<>?""")
+unshifted_list = list(u"""abcdefghijklmnopqrstuvwyz`1234567890-=[]\\;',./""")
 
 unshifted = dict([(k,v) for (k,v) in zip(shifted, unshifted_list)])
 
@@ -240,11 +247,12 @@ def type_string(s, mod=0):
 		key_tap(unicode(x), mod)
 
 
-siri_words = ['lowered', 'awaken']
+siri_words = ['lowered', 'awaken', 'hired']
 def do_actions(acts):
           mod = []
           mods = 0
 	  for a in acts:
+            print 'action', a
             if isinstance(a, tuple):
 		(a, mod_list) = a
                 mod1 = reduce(lambda a, b: a | b, mod_list, 0)
@@ -273,10 +281,22 @@ siri_filter=None
 
 def start_siri(filt):
   global siri_filter
+  global started_siri
+  if started_siri: # shouldn't happen
+    return
+  started_siri = True
+
   siri_filter = filt
   siri.pop_mini_editor(filt)
 
+started_siri = False
+
 def finish_siri():
+  global started_siri
+
+  if not started_siri:
+      return ''
+  started_siri = False
   phrase = siri.finish()
   filtered = apply_filter(siri_filter, phrase)
   print 'phrase', phrase, 'filtered', filtered
@@ -286,10 +306,15 @@ def finish_siri():
 
 # In case you want to finish the mini editor and discard the results.
 def cancel_siri():
+  global started_siri
+
+  if not started_siri:
+      return ''
+  started_siri = False
   siri.finish()
 
 def do_siri(s):
-  if s == 'lowered':
+  if s in ['lowered', 'hired']:
     start_siri(s)
   elif s == 'awaken':
     finish_siri()
@@ -312,17 +337,21 @@ def react_full_result(s):
 
 
 def react_tokens(tokens):
-    for token in tokens:
-        print token
-        (result_type, result_string) = token
-        if result_type == listener.FULL_RESULT:
-            react_full_result(result_string)
+  while True:
+    token = tokens.get()
+    print token
+    (result_type, result_string) = token
+    if result_type == listener.FULL_RESULT:
+        react_full_result(result_string)
 
 def listen_speech(react):
-    tokens = listener.listen()
+    tokens = Queue()
+    process = Process(target=listener.listen, args=(tokens,))
+    process.start()
     react(tokens)
     # We should never arrive here
     decoder.end_utt()
+    process.join()
     print 'An Error occured:', decoder.hyp().hypstr
 
 listen_speech(react_tokens)

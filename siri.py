@@ -22,7 +22,7 @@ def mini_editor(inq, outq, title='title'):
             wx.EVT_TIMER(self, TIMER_ID, self.on_timer)  # call the on_timer function
         def OnText(self, event): 
             print "Event Occurred:", self.control.GetValue()  
-            outq.put(self.control.GetValue())
+            outq.put_nowait(self.control.GetValue())
                 
         def on_timer(self, event):
             if not inq.empty():
@@ -77,7 +77,7 @@ def finish():
 '''])
     while not fromWindow.empty():
         current_contents = fromWindow.get()
-    toWindow.put(STOP)
+    toWindow.put_nowait(STOP)
     return current_contents
 
 
@@ -86,15 +86,16 @@ def toggle_siri():
     key.tap(long(key.K_F1), long(0))
     pass
 
+
 def pop_mini_editor(title=''):
-    toWindow.put(START)
+    toWindow.put_nowait(START)
     sleep(0.1)
     toggle_siri()
 
 
 def shutdown():
     pEcho.terminate()
-    toWindow.put(SHUTDOWN)
+    toWindow.put_nowait(SHUTDOWN)
 
 toWindow = Queue()
 fromWindow = Queue()

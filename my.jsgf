@@ -57,7 +57,7 @@ grammar main;
 
 <click> = (release click {release-click}) | ([hold | double | triple] [right | middle] click) ;
 
-<control> = snooze | awaken  | lowered ;
+<control> = snooze | awaken  | lowered | hired ;
 
 <action> = <symbol_1> | <letters> | <numbers> | <keys> | <edit> | <type> | <click>  | <control>;
 
