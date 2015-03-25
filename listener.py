@@ -1,6 +1,8 @@
 
 from pocketsphinx import *
+
 import pyaudio
+print 'IMPORTED PYAUDIO ***************************'
 
 from os import environ, path
 from itertools import izip

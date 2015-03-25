@@ -2,6 +2,9 @@
 
 # TODO
 #
+# release all modifier keys on crash, quit or mode change
+# gui recognition monitor
+# window stuck on top should be hidden
 # Phonetic edit distance for words and phrases
 # Restore microphone levels after Siri
 # Command and control are often mistaken for each other
@@ -49,44 +52,16 @@
 # tiled too close to delta; try homey
 # Implement  click cut copy paste
 
-import listener
 import siri
 import filters
 
 from multiprocessing import Process, Queue 
 
-# import platform_mac as platform
-from autopy import mouse
-from autopy import key
+
 from time import sleep
 
-# Platform workarounds
+from plat import *
 
-from platform import system
-
-def double_click(button):
-  mouse.click(button)
-  mouse.click(button)
-  
-def triple_click(button):
-  mouse.click(button)
-  mouse.click(button)
-  mouse.click(button)
-
-
-def linux_key_tap(k, m=0):
-  print "hello linux key tap", k, m
-  if k in shifted:
-    key.tap(unshifted[k], m | key.MOD_SHIFT)
-  else:
-    key.tap(k, m)
-
-key_tap = linux_key_tap
-
-if system() == 'Darwin':
-    global double_click, triple_click, key_tap
-    double_click = mouse.dblclick
-    triple_click = mouse.tplclick
 
 letter_map = {
         "alpha"    : "a",
@@ -319,6 +294,10 @@ def do_siri(s):
   elif s == 'awaken':
     finish_siri()
 
+def do_modifier(results_list):
+  k = results_list[-1]
+  key_press_seconds(k, 2)
+
 def react_full_result(s):
   results_list = s.split()
   print results_list
@@ -329,6 +308,9 @@ def react_full_result(s):
     return
   elif results_list[-1] == "click":
     do_click(results_list)
+  elif results_list[-1] in mod_set:
+    do_modifier(results_list)
+
   else:
     actions1 = filter_bullshit(results_list)
     actions2 = fix_symbols(actions1)
@@ -344,9 +326,13 @@ def react_tokens(tokens):
     if result_type == listener.FULL_RESULT:
         react_full_result(result_string)
 
+def run_listener(tokens):
+  import listener
+  listener.listen(tokens)
+
 def listen_speech(react):
     tokens = Queue()
-    process = Process(target=listener.listen, args=(tokens,))
+    process = Process(target=run_listener, args=(tokens,))
     process.start()
     react(tokens)
     # We should never arrive here
