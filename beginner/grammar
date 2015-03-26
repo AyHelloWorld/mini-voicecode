@@ -17,7 +17,7 @@ grammar main;
 
 <nonrepeatable> = <edit> |  <click>  | <control> | <mod>+ ;
 
-<click> = (release click ) | ([hold | double | triple] [right | middle] click) (copy | cut | paste) ;
+<click> = (release click ) | ([hold | double | triple] [right | middle] click) [copy | cut | paste] ;
 
 <control> = snooze | awaken  | lowered | hired ;
 

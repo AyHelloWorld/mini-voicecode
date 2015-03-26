@@ -1,4 +1,7 @@
+mini-voicecode
+==============
 
+Code faster using by voice.
 
 Linux Install (Ubuntu 14.10)
 ----------------------------
