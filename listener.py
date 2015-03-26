@@ -17,6 +17,8 @@ def print10best(decoder):
     for best, i in izip(decoder.nbest(), range(10)):
         print best.hyp().best_score, best.hyp().hypstr
 
+# vad_threshold helps a lot with ignoring background like keyboard clicking
+
 def configure_awaken():
     # Create a decoder with certain model
     config = Decoder.default_config()
@@ -26,6 +28,8 @@ def configure_awaken():
     config.set_string('-keyphrase', 'awaken')
     config.set_string('-agc', 'max')
     config.set_float('-fillprob', 50)
+    config.set_float("-vad_threshold", 3.0)
+    config.set_int("-vad_postspeech", 20)
 
     return Decoder(config)
 
@@ -39,8 +43,12 @@ def configure_sphinx():
     config.set_string('-dictcase', 'yes')
     config.set_string('-agc', 'max')
     config.set_float('-fillprob', 50)
+    config.set_float("-vad_threshold", 3.0)
+    config.set_int("-vad_postspeech", 20)
 
     return Decoder(config)
+# config.set_int("-vad_postspeech", 10)
+# makes it fucking fast but you have to talk fast and there's too many errors. still ...
 
 PARTIAL_RESULT = 0
 FULL_RESULT = 1

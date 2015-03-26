@@ -1,0 +1,15 @@
+#JSGF V1.0;
+grammar main;
+
+<control> = snooze | awaken | oops;
+
+<mod> = shift | command | control | alternate ;
+
+<mods> = ([hold] <mod>+) | release
+
+<click> = <mod>* ([hold | double | triple] [right | middle] click) [copy | cut | paste] ;
+
+<act> = <mods> | <control> | <click>
+
+public <main> = <act>+
+

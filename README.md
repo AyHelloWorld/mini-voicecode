@@ -24,7 +24,7 @@ OS X install
 ------------
 
 ```
-brew install wxmac wxpython cmu-sphinxbase cmu-pocketsphinx
+brew install wxmac wxpython cmu-sphinxbase cmu-pocketsphinx portaudio
 ```
 
 Install PyAudio from http://people.csail.mit.edu/hubert/pyaudio/

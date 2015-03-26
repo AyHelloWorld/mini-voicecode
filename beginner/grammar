@@ -1,15 +1,15 @@
 #JSGF V1.0;
 grammar main;
 
-<number> = one | two | three | four | five | six | seven | eight | nine | zero ;
+<number> = one | dose | three | four | five | six | seven | octane | nine | zero ;
 
 <edit> = undo | redo | forget that ;
 
 <nonprinting> =  delete |  page up  | page down  | left | right | escape | upper | downer ; // up | down | 
 
-<mod> = shift | command | control | alternate ;
+<mod> = shift | super | control | alternate ;
 
-<symbol> = enter | tabby | space |colon | semi colon  | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket  | right bracket  | left brace  | right brace  | left parenthesis  | right parenthesis  | tiled | quote | back quote | double quote | left angle  | right angle  | bang | hash | dollars | percent | carrot | ampersand | star | underscore | spike | batty ; // at | 
+<symbol> = enter | tabby | space |colon | semi colon  | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket  | right bracket  | left brace  | right brace  | left parenthesis  | right parenthesis  | squiggle | quote | back quote | double quote | left angle  | right angle  | bang | pound | dollars | percent | carrot | ampersand | star | underscore | spike | batty | vertical ; // at | 
 
 <key> = (<symbol> | <number> | <nonprinting>);
 
@@ -17,7 +17,7 @@ grammar main;
 
 <nonrepeatable> = <edit> |  <click>  | <control> | <mod>+ ;
 
-<click> = (release click ) | ([hold | double | triple] [right | middle] click) [copy | cut | paste] ;
+<click> = (release click ) | ([hold | double | triple] [right | middle] click) (copy | cut | paste) ;
 
 <control> = snooze | awaken  | lowered | hired ;
 

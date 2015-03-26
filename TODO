@@ -1,0 +1,54 @@
+#!/usr/local/bin/python
+
+# TODO
+#
+# beep when modifier off
+# release all modifier keys on crash, quit or mode change
+# gui recognition monitor
+# window stuck on top should be hidden
+# Phonetic edit distance for words and phrases
+# Restore microphone levels after Siri
+# Command and control are often mistaken for each other
+# Beginners method with just numbers and symbols And Mouse
+# When I say shift Alpha, I don't want '>'
+# forgets to let go the control keys
+# generate true scrolling events
+# tiled => tilda
+# multiprocessing
+      # File "/Library/Python/2.7/site-packages/pyaudio.py", line 605, in read
+      #   return pa.read_stream(self._stream, num_frames)
+      # IOError: [Errno Input overflowed] -9981
+# snippets
+# training
+# save compressed samples
+# undo etc
+# platform work-arounds
+# fix autopy bugs
+# dragon integration
+# Mac command-tab issue
+# threshold mic
+# try other acoustic models
+# made-up word dictionary
+# stats: command frequency and start-to-end time
+# gui
+# multi grammers
+# hot words: snooze, awaken, done
+# refactor
+# supress low-scoring commands
+# launch, switch applications
+# application context sensitivity
+# install instructions in readme
+# aliases to generate grammar
+# git shorcuts
+# up, down, left, right -- aliases for better recognition
+# use partial recognition for responsiveness
+# ctags/autocomplete/sourcegraph integration
+# shorter keypress delays
+# audio and speech feedback
+# single keystroke undo for terminal, vim, other
+# mac double, tripple click
+# command-click
+# homophone-aware autocompletion
+# homophone quick cycling (right, write; equals, `=`, `==`)
+# tiled too close to delta; try homey
+# Implement  click cut copy paste

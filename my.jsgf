@@ -45,7 +45,7 @@ grammar main;
 
 <mod> = shift | command | control | alternate ;
 
-<symbol> = enter | tabby | space |colon | semi colon { semi-colon } | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket { left-bracket } | right bracket { right-bracket } | left brace { left-brace } | right brace { right-brace } | left parenthesis { left-parenthesis } | right parenthesis { right-parenthesis } | tiled | quote | back quote | double quote | left angle { left-angle } | right angle { right-angle } | bang | hash | dollars | percent | carrot | ampersand | star | underscore | pipe | batty ; // at | 
+<symbol> = enter | tabby | space |colon | semi colon { semi-colon } | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket { left-bracket } | right bracket { right-bracket } | left brace { left-brace } | right brace { right-brace } | left parenthesis { left-parenthesis } | right parenthesis { right-parenthesis } | tiled | quote | back quote | double quote | left angle { left-angle } | right angle { right-angle } | bang | hash | dollars | percent | carrot | ampersand | star | underscore | vertical | batty ; // at | 
 
 <symbol_1> = symbol <symbol> ;
 
