@@ -2,6 +2,7 @@
 TODO
 ====
 
+* tabby and batty conflict
 * repeat
 * left right up down
 * 'delete' fights with 'three'
@@ -63,3 +64,5 @@ quick editor
 * cap, snake, camel, title, spine, stud, smash, dotty, english filters
 * window title = filter mode
 * hide better
+* Translate the NATO alphabet
+

@@ -9,7 +9,7 @@ grammar main;
 
 <mod> = shift | super | control | alternate ;
 
-<symbol> = enter | tabby | space |colon | semi colon  | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket  | right bracket  | left brace  | right brace  | left parenthesis  | right parenthesis  | squiggle | quote | back quote | double quote | left angle  | right angle  | bang | pound | dollars | percent | carrot | ampersand | star | underscore | spike | batty | vertical ; // at | 
+<symbol> = enter | tabby | space |colon | semi colon  | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket  | right bracket  | left brace  | right brace  | lepper  | ripen  | squiggle | quote | back quote | double quote | left angle  | right angle  | bang | pound | dollars | percent | carrot | ampersand | star | underscore | spike | batty | vertical ; // at | 
 
 <key> = (<symbol> | <number> | <nonprinting>);
 

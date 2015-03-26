@@ -29,7 +29,7 @@ def configure_awaken():
     config.set_string('-agc', 'max')
     config.set_float('-fillprob', 50)
     config.set_float("-vad_threshold", 3.0)
-    config.set_int("-vad_postspeech", 20)
+    config.set_int("-vad_postspeech", 30)
 
     return Decoder(config)
 
@@ -44,7 +44,7 @@ def configure_sphinx():
     config.set_string('-agc', 'max')
     config.set_float('-fillprob', 50)
     config.set_float("-vad_threshold", 3.0)
-    config.set_int("-vad_postspeech", 20)
+    config.set_int("-vad_postspeech", 30)
 
     return Decoder(config)
 # config.set_int("-vad_postspeech", 10)

@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/env python
 
 
 # wx, pyaudio and pyobjc fucking hate each other
@@ -249,6 +249,8 @@ symbol_map = {
         "right-bracket"     : "]",
         "left-brace"        : "{",
         "right-brace"       : "}",
+        "lepper"  : "(",
+        "ripen" : ")",
         "left-parenthesis"  : "(",
         "right-parenthesis" : ")",
         "tiled"             : "~",
@@ -270,8 +272,8 @@ symbol_map = {
         "underscore"        : "_",
         "space"     : " ",
         "enter"     : key.K_RETURN,
-        "tabby"     : 48,
-        #"tabby"     : "\t",
+        # "tabby"     : 48,
+        "tabby"     : "\t",
         }
 
 key_map = {
