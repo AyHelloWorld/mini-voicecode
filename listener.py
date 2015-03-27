@@ -28,7 +28,7 @@ def configure_awaken():
     config.set_string('-keyphrase', 'awaken')
     config.set_string('-agc', 'max')
     config.set_float('-fillprob', 50)
-    config.set_float("-vad_threshold", 3.0)
+    config.set_float("-vad_threshold", 3.3)
     config.set_int("-vad_postspeech", 30)
 
     return Decoder(config)
@@ -43,7 +43,7 @@ def configure_sphinx():
     config.set_string('-dictcase', 'yes')
     config.set_string('-agc', 'max')
     config.set_float('-fillprob', 50)
-    config.set_float("-vad_threshold", 3.0)
+    config.set_float("-vad_threshold", 3.3)
     config.set_int("-vad_postspeech", 30)
 
     return Decoder(config)

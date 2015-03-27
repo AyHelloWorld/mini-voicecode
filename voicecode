@@ -18,6 +18,7 @@ from time import sleep
 
 def filter_bullshit(words):
   for word in words:
+    # this is fucked. What if I want to use a word like 'left' on its own?
     if word not in bullshit:
       yield word
 
@@ -262,16 +263,19 @@ symbol_map = {
         "right-angle"       : ">",
         "bang"              : "!",
         "batty"             : "@",
+        "batter"             : "@",
         "hash"              : "#",
         "pound"             : "#",
         "dollars"           : "$",
         "percent"           : "%",
         "carrot"            : "^",
+        "cartoon"            : "^",
         "ampersand"         : "&",
         "star"              : "*",
         "underscore"        : "_",
         "space"     : " ",
         "enter"     : key.K_RETURN,
+        "return"     : key.K_RETURN,
         # "tabby"     : 48,
         "tabby"     : "\t",
         }
@@ -280,8 +284,8 @@ key_map = {
         "delete"    : key.K_BACKSPACE,
         "page-up"   : key.K_PAGEUP,
         "page-down" : key.K_PAGEDOWN,
-        "left"      : key.K_LEFT,
-        "right"     : key.K_RIGHT,
+        "lefty"      : key.K_LEFT,
+        "righty"     : key.K_RIGHT,
         "upper"        : key.K_UP,
         "downer"      : key.K_DOWN,
         "escape"    : key.K_ESCAPE

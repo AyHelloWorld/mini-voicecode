@@ -53,6 +53,17 @@ TODO
 * homophone quick cycling (right, write; equals, `=`, `==`)
 * stats: command frequency, accuracy, duration, integral frequency+duration
 * cpu priority tuning
+* doesn't seem to wake up when the computer sleeps or maybe we need to lower of VOD in snooze mode.
+* 
+
+
+modal
+-----
+
+* visual feedback like sticky keys
+* grammar changes for lots lof little modes
+* cmd-shift-[-[ change gramar to only accept (or prioritize) brackets for a while
+* clicking commands disapear when the mouse has not moved in a while
 
 
 quick editor

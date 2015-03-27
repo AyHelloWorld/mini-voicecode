@@ -5,11 +5,11 @@ grammar main;
 
 <edit> = undo | redo | forget that ;
 
-<nonprinting> =  delete |  page up  | page down  | left | right | escape | upper | downer ; // up | down | 
+<nonprinting> =  delete |  page up  | page down  | lefty | righty | escape | upper | downer ; // up | down | 
 
 <mod> = shift | super | control | alternate ;
 
-<symbol> = enter | tabby | space |colon | semi colon  | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket  | right bracket  | left brace  | right brace  | lepper  | ripen  | squiggle | quote | back quote | double quote | left angle  | right angle  | bang | pound | dollars | percent | carrot | ampersand | star | underscore | spike | batty | vertical ; // at | 
+<symbol> = return | tabby | space |colon | semi colon  | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket  | right bracket  | left brace  | right brace  | lepper  | ripen  | squiggle | quote | back quote | double quote | left angle  | right angle  | bang | pound | dollars | percent | cartoon | ampersand | star | underscore | spike | batter | vertical ; // at | 
 
 <key> = (<symbol> | <number> | <nonprinting>);
 
@@ -19,7 +19,7 @@ grammar main;
 
 <click> = (release click ) | ([hold | double | triple] [right | middle] click) [copy | cut | paste] ;
 
-<control> = snooze | awaken  | lowered | hired ;
+<control> = snooze | awaken  ; // | lowered | hired ;
 
 
 <action> = <repeatable> | <nonrepeatable> ;

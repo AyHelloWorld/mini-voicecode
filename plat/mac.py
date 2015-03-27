@@ -107,7 +107,7 @@ on controlpress(k, secs)
 	beep
 	end tell
 end controlpress
-on alternativepress(k, secs)
+on alternatepress(k, secs)
 	tell application "System Events"
 	key down option
 	say k
@@ -115,7 +115,7 @@ on alternativepress(k, secs)
 	key up option
 	beep
 	end tell
-end alternativepress
+end alternatepress
 on shiftpress(k, secs)
 	tell application "System Events"
 	key down shift
