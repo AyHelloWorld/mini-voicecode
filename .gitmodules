@@ -1,0 +1,3 @@
+[submodule "autopy"]
+	path = autopy
+	url = https://github.com/gitfoxi/autopy.git
