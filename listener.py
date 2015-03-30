@@ -71,7 +71,15 @@ def listen(token_queue):
     partial_result = ""
     decoder = command_decoder
     while True:
-        buf = stream.read(2048)
+        try:
+            buf = stream.read(2048)
+        except IOError as e:
+            if e.errno != (-9981):
+                raise e
+            print "overflow detected. Re-initializing stream."
+            p.close()
+            stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=2048)
+            buf = stream.read(2048)
         if buf:
             decoder.process_raw(buf, False, False)
             try:
