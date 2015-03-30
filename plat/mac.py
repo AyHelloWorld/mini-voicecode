@@ -93,7 +93,6 @@ on commandpress(k, secs)
 	tell application "System Events"
 	key down command
 	say k
-	delay secs
 	key up command
 	beep
 	end tell
@@ -102,7 +101,6 @@ on controlpress(k, secs)
 	tell application "System Events"
 	key down control
 	say k
-	delay secs
 	key up control
 	beep
 	end tell
@@ -111,7 +109,6 @@ on alternatepress(k, secs)
 	tell application "System Events"
 	key down option
 	say k
-	delay secs
 	key up option
 	beep
 	end tell
@@ -120,7 +117,6 @@ on shiftpress(k, secs)
 	tell application "System Events"
 	key down shift
 	say k
-	delay secs
 	key up shift
 	beep
 	end tell

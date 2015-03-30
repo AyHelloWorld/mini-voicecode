@@ -54,7 +54,7 @@ TODO
 * stats: command frequency, accuracy, duration, integral frequency+duration
 * cpu priority tuning
 * doesn't seem to wake up when the computer sleeps or maybe we need to lower of VOD in snooze mode.
-* 
+* git submodules
 
 
 modal
