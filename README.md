@@ -59,7 +59,9 @@ Get my fork of `autopy`: `git clone https://github.com/gitfoxi/autopy.git`
 Build with: `python setup.py install`
 
 Adjust your microphone levels. A good headset microphone is
-recommended. I've also had luck with a good table mic and the new macbooks have pretty-good mics built-in.
+recommended. I've also had luck with a good table mic and the new macbooks have pretty-good mics built-in. 
+
+For best results set input output and sound effects to your headset in sound preferences.
 
 You can use the famous line-in program to check what you sound like. https://www.rogueamoeba.com/freebies/
 
