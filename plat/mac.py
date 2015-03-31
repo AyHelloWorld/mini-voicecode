@@ -89,6 +89,23 @@ def key_updown(k, updown):
 # not actually using `secs`
 # `say` provides the delay
 script = applescript.AppleScript('''
+ on keysup
+	key up command
+	key up shift
+	key up option
+	key up control
+ end keysup
+
+ on error errStr number errorNumber
+ 		keysup
+        -- If our own error number, warn about bad data.
+        if the errorNumber is equal to -128 then
+            display dialog "caught cancel"          
+        else
+            -- An unknown error occurred. Resignal, so the caller
+            -- can handle it, or AppleScript can display the number.
+            error errStr number errorNumber
+        end if	
 on commandpress(k, secs)
 	tell application "System Events"
 	key down command
@@ -124,8 +141,21 @@ end shiftpress
 ''')
 # fine but what about multiple mod keys like alt-shift?
 
+keysup_script = applescript.AppleScript('''
+ on keysup
+	key up command
+	key up shift
+	key up option
+	key up control
+ end keysup
+ ''')
+
 def key_press_seconds(k, secs):
-	script.call(k + 'press', k, secs)
+	try:
+		script.call(k + 'press', k, secs)
+	except e:
+		keysup_script.call()
+		raise e
 
 # 
 # def key_press_seconds(k, secs):
