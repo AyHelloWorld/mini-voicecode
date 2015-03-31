@@ -1,7 +1,7 @@
 mini-voicecode
 ==============
 
-Code faster using by voice.
+Soothe your tendinitis and code faster by voice.
 
 
 All platforms

@@ -2,6 +2,9 @@
 TODO
 ====
 
+* a better beep sound
+* Voice feedback should be optional
+* English mode
 * tabby and batty conflict
 * repeat
 * left right up down
