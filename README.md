@@ -39,6 +39,7 @@ OS X install
 
 ```
 brew install wxmac wxpython portaudio python autoconf libtool automake swig
+brew install homebrew/python/numpy
 pip install pyobjc
 pip install py-applescript
 ```
@@ -54,7 +55,7 @@ make install
 
 Install PyAudio from http://people.csail.mit.edu/hubert/pyaudio/
 
-Get my fork of `autopy`: `git clone https://github.com/gitfoxi/autopy.git`
+Get my fork of `autopy` in the `autopy` directory.
 
 Build with: `python setup.py install`
 

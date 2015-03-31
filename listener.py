@@ -7,7 +7,10 @@ print 'IMPORTED PYAUDIO ***************************'
 from os import environ, path
 from itertools import izip
 import sys
+import traceback
+import numpy as np
 
+# todo: Windows friendly cross-platform paths
 MODELDIR = "/usr/local//share/pocketsphinx/model/"
 
 # Dead code right here
@@ -56,6 +59,29 @@ FULL_RESULT = 1
 sleepy_words = ['snooze', 'lowered', 'hired']
 wakey_words = ['awaken']
 
+def stream_open(p):
+    return p.open(format=pyaudio.paInt32, channels=1, rate=16000*oversampling, input=True, frames_per_buffer=frames*oversampling)
+#    return p.open(format=pyaudio.paInt32, channels=1, rate=48000, input=True, frames_per_buffer=frames*oversampling)
+
+oversampling = 3
+frames = 2048
+
+# would float32 work better for resampling?
+
+def down_sample(sig):
+    # decoded = np.fromstring(sig, 'Int32');
+    decoded = np.right_shift(np.fromstring(sig, 'Int32'), 2)
+    #return decoded.tostring()
+    reshaped = decoded.reshape((-1, oversampling))
+
+    # will overflow of oversampling > 4
+    downsampled = reshaped.sum(axis=1)
+    return np.right_shift(downsampled, 16).astype('Int16').tostring()
+
+def stream_read(s, n):
+    sig = s.read(n)
+    return down_sample(sig)
+
 def listen(token_queue):
     paused = False
 
@@ -63,7 +89,10 @@ def listen(token_queue):
     command_decoder = configure_sphinx()
     p = pyaudio.PyAudio()
 
-    stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=2048)
+    # todo: stream_callback
+    # todo: oversample and average for better noise immunity
+
+    stream = stream_open(p)
     stream.start_stream()
     in_speech_bf = True
     command_decoder.start_utt()
@@ -72,14 +101,17 @@ def listen(token_queue):
     decoder = command_decoder
     while True:
         try:
-            buf = stream.read(2048)
+            buf = stream_read(stream, frames*oversampling)
         except IOError as e:
-            if e.errno != (-9981):
-                raise e
+            if e.errno != pyaudio.paInputOverflowed:
+                traceback.print_exc()
+                print "IOError not trapped. Trying to recover anyway."
+                # raise e
             print "overflow detected. Re-initializing stream."
-            p.close()
-            stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=2048)
-            buf = stream.read(2048)
+            stream.stop_stream()
+            stream.close()
+            stream = stream_open(p)
+            buf = stream_read(stream, frames*oversampling)
         if buf:
             decoder.process_raw(buf, False, False)
             try:
