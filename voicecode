@@ -157,12 +157,15 @@ def react_full_result(s):
 
 FULL_RESULT = 1
 def react_tokens(tokens):
-  while True:
-    token = tokens.get()
-    print token
-    (result_type, result_string) = token
-    if result_type == FULL_RESULT:
-        react_full_result(result_string)
+  try:
+    while True:
+      token = tokens.get()
+      print token
+      (result_type, result_string) = token
+      if result_type == FULL_RESULT:
+          react_full_result(result_string)
+  finally:
+    keysup()
 
 
 from multiprocessing import Process, Queue 

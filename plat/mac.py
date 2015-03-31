@@ -89,64 +89,91 @@ def key_updown(k, updown):
 # not actually using `secs`
 # `say` provides the delay
 script = applescript.AppleScript('''
- on keysup
-	key up command
-	key up shift
-	key up option
-	key up control
- end keysup
-
- on error errStr number errorNumber
- 		keysup
-        -- If our own error number, warn about bad data.
-        if the errorNumber is equal to -128 then
-            display dialog "caught cancel"          
-        else
-            -- An unknown error occurred. Resignal, so the caller
-            -- can handle it, or AppleScript can display the number.
-            error errStr number errorNumber
-        end if	
-on commandpress(k, secs)
+on keysup()
 	tell application "System Events"
-	key down command
-	say k
-	key up command
-	beep
+		key up command
+		key up shift
+		key up option
+		key up control
 	end tell
+end keysup
+
+on myerror(errStr, number, errorNumber)
+	keysup
+	-- If our own error number, warn about bad data.
+	if the errorNumber is equal to -128 then
+		display dialog "caught cancel"
+	else
+		-- An unknown error occurred. Resignal, so the caller
+		-- can handle it, or AppleScript can display the number.
+		error errStr number errorNumber
+	end if
+end myerror
+on commandpress(k, secs)
+	try
+		tell application "System Events"
+			key down command
+			say k
+			key up command
+			beep
+		end tell
+	on error errStr number errorNumber
+		myerror(errStr, number, errorNumber)
+	end try
 end commandpress
 on controlpress(k, secs)
+	try
+
 	tell application "System Events"
 	key down control
 	say k
 	key up control
 	beep
 	end tell
+	on error errStr number errorNumber
+		myerror(errStr, number, errorNumber)
+	end try
 end controlpress
 on alternatepress(k, secs)
+	try
+
 	tell application "System Events"
 	key down option
 	say k
 	key up option
 	beep
 	end tell
+	on error errStr number errorNumber
+		myerror(errStr, number, errorNumber)
+	end try
+
 end alternatepress
 on shiftpress(k, secs)
+	try
+
 	tell application "System Events"
 	key down shift
 	say k
 	key up shift
 	beep
 	end tell
+	on error errStr number errorNumber
+		myerror(errStr, number, errorNumber)
+	end try
 end shiftpress
 ''')
 # fine but what about multiple mod keys like alt-shift?
 
 keysup_script = applescript.AppleScript('''
- on keysup
+ on keysup()
+ 	tell application "System Events"
+
 	key up command
 	key up shift
 	key up option
 	key up control
+
+	end tell
  end keysup
  ''')
 
@@ -157,6 +184,8 @@ def key_press_seconds(k, secs):
 		keysup_script.call()
 		raise e
 
+def keysup():
+	keysup_script.call()
 # 
 # def key_press_seconds(k, secs):
 # 	 print " key_press_seconds", k, secs
