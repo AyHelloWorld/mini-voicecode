@@ -1,0 +1,14 @@
+#JSGF V1.0;
+grammar main;
+
+import <common.common.*> ;
+
+<repeatable> = <common.common.mod>* <common.common.key> ;
+
+<nonrepeatable> = <common.common.edit> |  <common.common.click>  | <common.common.control> | <common.common.mod>+ | <common.common.mouse> ;
+
+<action> = <repeatable> | <nonrepeatable> ;
+
+<repeat> = repeat <common.common.number>* [<repeatable>] ;
+
+public <main> = (<action>+) | <repeat> ;
