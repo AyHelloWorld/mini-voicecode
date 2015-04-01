@@ -19,7 +19,7 @@ grammar main;
 
 <click> = (release click ) | ([hold | double | triple] [right | middle] click) [copy | cut | paste] ;
 
-<control> = snooze | awaken  ; // | lowered | hired ;
+<control> = snooze | awaken | english ; // | lowered | hired ;
 
 
 <action> = <repeatable> | <nonrepeatable> ;
@@ -27,4 +27,3 @@ grammar main;
 <repeat> = repeat <number>* [<repeatable>] ;
 
 public <main> = (<action>+) | <repeat> ;
-

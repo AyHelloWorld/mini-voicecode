@@ -10,6 +10,9 @@ import sys
 import traceback
 import numpy as np
 
+from enums import *
+
+
 # todo: Windows friendly cross-platform paths
 MODELDIR = "/usr/local//share/pocketsphinx/model/"
 
@@ -74,7 +77,7 @@ def down_sample(sig):
     #return decoded.tostring()
     reshaped = decoded.reshape((-1, oversampling))
 
-    # will overflow of oversampling > 4
+    # will overflow if oversampling > 4
     downsampled = reshaped.sum(axis=1)
     return np.right_shift(downsampled, 16).astype('Int16').tostring()
 
@@ -82,7 +85,8 @@ def stream_read(s, n):
     sig = s.read(n)
     return down_sample(sig)
 
-def listen(token_queue):
+
+def listen(token_queue, to_listen_queue):
     paused = False
 
     awakener = configure_awaken()
@@ -100,6 +104,16 @@ def listen(token_queue):
     partial_result = ""
     decoder = command_decoder
     while True:
+        while not to_listen_queue.empty():
+            order = to_listen_queue.get()
+            decoder.end_utt()
+            if order == SLEEP:
+                decoder = awakener
+            elif order == AWAKEN:
+                decoder = command_decoder
+            decoder.start_utt()
+
+
         try:
             buf = stream_read(stream, frames*oversampling)
         except IOError as e:

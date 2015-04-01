@@ -14,6 +14,8 @@ import filters
 
 from time import sleep
 
+from enums import *
+
 
 
 def filter_bullshit(words):
@@ -124,10 +126,16 @@ def cancel_siri():
   siri.finish()
 
 def do_siri(s):
+  global english_mode
+
   if s in ['lowered', 'hired']:
     start_siri(s)
   elif s == 'awaken':
-    finish_siri()
+    if english_mode:
+      siri.toggle_siri()
+      english_mode = False
+    else:
+      finish_siri()
 
 def do_modifier(results_list):
   k = results_list[-1]
@@ -135,11 +143,19 @@ def do_modifier(results_list):
     k = 'command'
   key_press_seconds(k, 0.5)
 
+english_mode = False
+
 def react_full_result(s):
+  global english_mode
+
   results_list = s.split()
   print results_list
 
-  if s in siri_words:
+  if s == 'english':
+    to_listen_queue.put(SLEEP)
+    siri.toggle_siri()
+    english_mode = True
+  elif s in siri_words:
     do_siri(s)
   elif len(results_list) == 0:
     return
@@ -171,13 +187,14 @@ def react_tokens(tokens):
 from multiprocessing import Process, Queue 
 
 tokens = Queue()
+to_listen_queue = Queue()
 
-def run_listener(tokens):
+def run_listener(tokens, to_listen_queue):
   import listener
-  listener.listen(tokens)
+  listener.listen(tokens, to_listen_queue)
 
 def listen_speech():
-    process = Process(target=run_listener, args=(tokens,))
+    process = Process(target=run_listener, args=(tokens, to_listen_queue))
     process.start()
 
 # fork pyaudio
