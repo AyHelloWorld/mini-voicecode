@@ -2,53 +2,46 @@
 TODO
 ====
 
+* command-d: don't save
 * a better beep sound
-* Voice feedback should be optional
-* English mode
-* tabby and batty conflict
+* Voice feedback should be optional - recommend to use keycastr for now
 * repeat
-* left right up down
-* 'delete' fights with 'three'
-* occasional long pause after recognition before result returned - may need
-  threading
 * command-line arguments
-* modifiers are pressed for too long, sometimes
-* better sound for beep when modifier off
-* release all modifier keys on crash, quit or mode change
-* gui recognition monitor
+* better sound for beep when modifier off - recommend to change beep in system preferences for now
+* release all modifier keys on quit or mode change
+* gui recognition monitor - show the current mode
 * window stuck on top should be hidden
-* Phonetic edit distance for words and phrases
+* Phonetic edit distance for words and phrases to help design better grammars
 * Restore microphone levels after Siri
 * Beginners method with just numbers and symbols And Mouse
 * When I say shift Alpha, I don't want '>'
 * generate true scrolling events
-* real sticky keys implementation
-* english mode
+* commands to lock and release modifier keys
 * snippets
+* auto completion mode that lets you select by number
 * training
 * save compressed samples
 * undo etc
 * platform work-arounds
-* fix autopy bugs
+* fix autopy bugs - just wrap the functions for now
 * dragon integration
-* Mac super-tab issue
+* Mac super-tab issue - it doesn't let's go of the command key
 * try other acoustic models
 * made-up word dictionary
 * stats: command frequency and start-to-end time
 * gui
 * multi grammers
-* hot words: snooze, awaken, done, nevermind
+* hot words: done, nevermind
 * refactor
-* supress low-scoring commands
+* supress low-scoring commands - can I get a score from pocket Sphinx?
 * launch, switch applications
-* application context sensitivity
-* install instructions in readme
+* application context sensitivity - see spy.py
+* install instructions in readme - linux needs work
 * ms windows
 * aliases to generate grammar
 * git shorcuts
 * use partial recognition for responsiveness
 * ctags/autocomplete/sourcegraph integration
-* shorter keypress delays
 * configurable audio and speech feedback
 * single keystroke undo for terminal, vim, other
 * command-click, copy, cut, paste
@@ -57,7 +50,13 @@ TODO
 * stats: command frequency, accuracy, duration, integral frequency+duration
 * cpu priority tuning
 * doesn't seem to wake up when the computer sleeps or maybe we need to lower of VOD in snooze mode.
-* git submodules
+
+Bad words
+---------
+ 
+* return
+* three, delete
+* upper/lower/leper
 
 
 modal

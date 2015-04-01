@@ -24,7 +24,6 @@ You do not need other dictation software such as Dragon, Apple enhanced dictatio
 * assigned the voice command "awaken" to do nothing in your dictation software
 
 
-
 Linux Install (Ubuntu 14.10)
 ----------------------------
 
@@ -44,6 +43,7 @@ paplay tst.wav
 ```
 
 Finally: `./voicecode`
+
 
 OS X install
 ------------
@@ -80,3 +80,12 @@ You can use the famous line-in program to check what you sound like. https://www
 Go to system preferences. Under dictation and speech, turn dictation on and check "use enhanced dictation", and set the shortcut to F1. Under accessibility create a dictation command, "awaken". Have it perform a paste text action, And leave the text blank.
 
 Finally: `./voicecode`
+
+If it doesn't work the first time you read it, go to system preferences/ security and privacy and allow your terminal to control the computer in the privacy tab.
+
+
+Helpful applications
+--------------------
+
+* [KeyCastr](https://github.com/keycastr/keycastr) gives visual feedback on the hidden kitty press
+* [Spectacle](http://spectacleapp.com) shoves your windows around without you having to touch the mouse

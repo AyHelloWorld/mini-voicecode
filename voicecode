@@ -142,14 +142,30 @@ def do_modifier(results_list):
   if k == 'super':
     k = 'command'
   key_press_seconds(k, 0.5)
+  
+def do_repeat(numbers):
+  if len(numbers) == 0:
+    n = 1
+  else:
+    n = int(''.join(map(number_map.get, numbers)))
+  print 'repeat', n, numbers
+  for _ in range(n):
+    react_full_result(previous_s)
+
 
 english_mode = False
+previous_s = ''
 
 def react_full_result(s):
-  global english_mode
+  global english_mode, previous_s
 
   results_list = s.split()
   print results_list
+  if results_list[0] == 'repeat':
+    do_repeat(results_list[1:])
+    return
+  else:
+    previous_s = s
 
   if s == 'english':
     to_listen_queue.put(SLEEP)

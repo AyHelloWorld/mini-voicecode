@@ -185,7 +185,7 @@ def key_press_seconds(k, secs):
 		raise e
 
 def keysup():
-	keysup_script.call()
+	keysup_script.call('keysup')
 # 
 # def key_press_seconds(k, secs):
 # 	 print " key_press_seconds", k, secs
