@@ -14,6 +14,17 @@ git submodule init
 git submodule update
 ```
 
+
+Cooperating with other dictation software
+-----------------------------------------
+
+You do not need other dictation software such as Dragon, Apple enhanced dictation, or Windows dictation. But you definitely might want to check them out. In order to cooperate between mini voice code and other software:
+
+* assign the F1 key to toggle your dictation software
+* assigned the voice command "awaken" to do nothing in your dictation software
+
+
+
 Linux Install (Ubuntu 14.10)
 ----------------------------
 
@@ -65,5 +76,7 @@ recommended. I've also had luck with a good table mic and the new macbooks have 
 For best results set input output and sound effects to your headset in sound preferences.
 
 You can use the famous line-in program to check what you sound like. https://www.rogueamoeba.com/freebies/
+
+Go to system preferences. Under dictation and speech, turn dictation on and check "use enhanced dictation", and set the shortcut to F1. Under accessibility create a dictation command, "awaken". Have it perform a paste text action, And leave the text blank.
 
 Finally: `./voicecode`
