@@ -15,12 +15,13 @@ grammar main;
 
 <repeatable> = <mod>* <key> ;
 
-<nonrepeatable> = <edit> |  <click>  | <control> | <mod>+ ;
+<nonrepeatable> = <edit> |  <click>  | <control> | <mod>+ | <mouse> ;
 
 <click> = (release click ) | ([hold | double | triple] [right | middle] click) [copy | cut | paste] ;
 
 <control> = snooze | awaken | english ; // | lowered | hired ;
 
+<mouse> = mouse [top | bottom] [left | right] ;
 
 <action> = <repeatable> | <nonrepeatable> ;
 

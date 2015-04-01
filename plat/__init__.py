@@ -2,8 +2,7 @@
 # Platform workarounds
 
 from platform import system
-from autopy import mouse
-from autopy import key
+from autopy import mouse, screen, key
 
 # default implementations
 

@@ -77,7 +77,7 @@ For best results set input output and sound effects to your headset in sound pre
 
 You can use the famous line-in program to check what you sound like. https://www.rogueamoeba.com/freebies/
 
-Go to system preferences. Under dictation and speech, turn dictation on and check "use enhanced dictation", and set the shortcut to F1. Under accessibility create a dictation command, "awaken". Have it perform a paste text action, And leave the text blank.
+Go to system preferences. Under dictation and speech, turn dictation on and check "use enhanced dictation", and set the shortcut to F1. Under accessibility create a dictation command, "awaken". (First, enable 'advanced commands'.) Have it perform a paste text action, And leave the text blank.
 
 Finally: `./voicecode`
 
@@ -91,3 +91,4 @@ Helpful applications
 
 * [KeyCastr](https://github.com/keycastr/keycastr) gives visual feedback on the hidden kitty press
 * [Spectacle](http://spectacleapp.com) shoves your windows around without you having to touch the mouse
+* [Vimari](https://github.com/guyht/vimari) a vim mode for Safari

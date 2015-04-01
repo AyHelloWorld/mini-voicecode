@@ -2,6 +2,7 @@
 TODO
 ====
 
+* spectacle commands
 * quit when one of the processes crashes
 * playback my voice mode
 * command-d: don't save

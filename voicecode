@@ -156,6 +156,22 @@ def do_repeat(numbers):
 english_mode = False
 previous_s = ''
 
+def     do_mouse(edges):
+  xres, yres = screen.get_size()
+  x = xres / 2
+  y = yres / 2
+  if 'left' in edges:
+    x = 0
+  if 'right' in edges:
+    x = xres - 1
+  if 'top' in edges:
+    y = 0
+  if 'bottom' in edges:
+    y = yres - 1
+  mouse.move(x, y) 
+
+
+
 def react_full_result(s):
   global english_mode, previous_s
 
@@ -167,7 +183,9 @@ def react_full_result(s):
   else:
     previous_s = s
 
-  if s == 'english':
+  if results_list[0] == 'mouse':
+    do_mouse(results_list[1:])
+  elif s == 'english':
     to_listen_queue.put(SLEEP)
     siri.toggle_siri()
     english_mode = True
