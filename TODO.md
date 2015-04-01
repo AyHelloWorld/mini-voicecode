@@ -2,10 +2,12 @@
 TODO
 ====
 
+* quit when one of the processes crashes
+* playback my voice mode
 * command-d: don't save
 * a better beep sound
 * Voice feedback should be optional - recommend to use keycastr for now
-* repeat
+* repeatable commands like delete
 * command-line arguments
 * better sound for beep when modifier off - recommend to change beep in system preferences for now
 * release all modifier keys on quit or mode change
@@ -52,11 +54,13 @@ TODO
 * doesn't seem to wake up when the computer sleeps or maybe we need to lower of VOD in snooze mode.
 
 Bad words
+-
 ---------
  
 * return
 * three, delete
 * upper/lower/leper
+* control
 
 
 modal

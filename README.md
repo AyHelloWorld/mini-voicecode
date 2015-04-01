@@ -87,5 +87,7 @@ If it doesn't work the first time you read it, go to system preferences/ securit
 Helpful applications
 --------------------
 
+### OSX
+
 * [KeyCastr](https://github.com/keycastr/keycastr) gives visual feedback on the hidden kitty press
 * [Spectacle](http://spectacleapp.com) shoves your windows around without you having to touch the mouse
