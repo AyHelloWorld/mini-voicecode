@@ -1,0 +1,3 @@
+
+SLEEP = 0
+AWAKEN = 1
