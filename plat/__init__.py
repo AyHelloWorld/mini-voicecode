@@ -27,6 +27,7 @@ def linux_key_tap(k, m=0):
     key.tap(unshifted[k], m | key.MOD_SHIFT)
   else:
     key.tap(k, m)
+  keysup()
 
 key_tap = linux_key_tap
 

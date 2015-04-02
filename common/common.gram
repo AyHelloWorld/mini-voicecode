@@ -2,6 +2,7 @@
 grammar common.common;
 
 public <number> = one | dose | three | four | five | six | seven | octane | nine | zero ;
+public <numbers> = number <number> <number>*;
 
 public <edit> = undo | redo | forget that ;
 
@@ -20,3 +21,39 @@ public <click> = (release click ) | ([hold | double | triple] [right | middle] c
 public <control> = snooze | awaken | english ; // | lowered | hired ;
 
 public <mouse> = mouse [top | bottom] [left | right] ;
+
+putlic <letter> = alpha
+| bravo
+| charlie
+| delta
+| echo
+| foxtrot
+| golf
+| hotel
+| india
+| juliet
+| kilo
+| lima
+| mike
+| november
+| oscar
+| papa
+| quebec
+| romeo
+| sierra
+| tango
+| uniform
+| victor
+| whiskey
+| x-ray
+| yankee
+| zulu;
+
+public <spell> = spell <letter>+ ;
+
+
+public <keys> = key <mod>* (<key> | <letter> | <number> | <symbol>) ;
+
+public <hot> = slash | colon | escape | india | alpha | <mod>+ | type | space;
+
+public <type> = <hot> (<key> | <letter> | <number> | <symbol>)+ ;
