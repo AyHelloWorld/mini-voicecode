@@ -2,6 +2,11 @@
 TODO
 ====
 
+* lock modifier commands
+* make commands
+* make return a wake up word
+* the mouse command is sometimes silently ignored
+* the shift key remains pressed after certain things like double quote
 * spectacle commands
 * quit when one of the processes crashes
 * playback my voice mode

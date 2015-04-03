@@ -14,4 +14,4 @@ import <common.common.*> ;
 
 <repeat> = repeat <common.common.number>* ; // [<repeatable>] ;
 
-public <main> = (<action>+) | <repeat> ;
+public <main> = (<action>) | <repeat> ;
