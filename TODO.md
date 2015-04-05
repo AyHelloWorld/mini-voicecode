@@ -2,6 +2,9 @@
 TODO
 ====
 
+* opus voice compression
+* correct missed recordings
+* better silence trimming in recordings
 * lock modifier commands
 * make commands
 * make return a wake up word
@@ -66,7 +69,7 @@ Bad words
 * return
 * three, delete
 * upper/lower/leper
-* control
+* control/spell -- add pronunciation for control
 
 
 modal

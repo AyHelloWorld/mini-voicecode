@@ -37,11 +37,13 @@ def save_waves(wq):
     this_phrase = deque()
     try:
         makedirs(path.join('samples' ,'bad'))
-    except IOError as e:
+    except OSError as e:
         if e.errno != errno.EEXIST:
             raise e
     while True:
-        (k, v) = wq.get()
+        db = wq.get()
+        # print 'wq', db
+        (k, v) = db
         if k == DONTLEARN:
             if prev_saved_file is not None:
                 mark_erroneous(prev_saved_file)
@@ -63,7 +65,8 @@ def save_waves(wq):
 
 
 def save_wave(serial_number, frames, words):
-    fn = path.join('samples', str(serial_number) + '_' + '_'.join(words))
+    fn = path.join('samples', str(serial_number) + '_' + 
+        '_'.join(words.split()) + '.wav')
     w = wave.open(fn, 'w')
     w.setnchannels(1)
     w.setframerate(16000)
@@ -79,7 +82,7 @@ def save_wave(serial_number, frames, words):
 def try_read_serial_number():
     try:
         sn = open('serial_number', 'r')
-        return int(sn.read())
+        return int(sn.read()) + 1
     except:
         return 0
 
@@ -114,7 +117,7 @@ def configure_awaken():
     config.set_float('-fillprob', 50)
     config.set_float("-vad_threshold", 3.3)
     config.set_int("-vad_postspeech", 30)
-    config.set_string('-log', '/dev/null')
+    config.set_string('-logfn', '/dev/null')
 
     return Decoder(config)
 
@@ -136,7 +139,7 @@ def configure_sphinx():
     # config.set_float("-wbeam", 7e-30)
     # config.set_int("-maxhmmpf", -1)
     # config.set_string('-mllr', 'train/mllr_matrix')
-    config.set_string('-log', '/dev/null')
+    config.set_string('-logfn', '/dev/null')
 
     return Decoder(config)
 # config.set_int("-vad_postspeech", 10)
@@ -219,7 +222,7 @@ def listen(token_queue, to_listen_queue):
             try:
                 new_partial_result = decoder.hyp().hypstr
                 if  new_partial_result != '':
-                    wave_queue.put(DECODING)
+                    wave_queue.put((DECODING,None))
                     if new_partial_result != partial_result:
                         # yield new_partial_result[len(partial_result):].strip()
                         token_queue.put_nowait((PARTIAL_RESULT, new_partial_result))
