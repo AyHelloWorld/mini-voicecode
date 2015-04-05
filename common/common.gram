@@ -1,16 +1,18 @@
 #JSGF V1.0;
 grammar common.common;
 
-public <number> = one | dose | three | four | five | six | seven | octane | nine | zero ;
+public <number> = one | dose | three | four | five | six | seven | octane | niner | zero ;
 public <numbers> = number <number> <number>*;
 
 public <edit> = undo | redo | forget that ;
 
-public <nonprinting> =  delete |  page up  | page down  | lefty | righty | escape | upper | downer ; // up | down | 
+public <nonprinting> =  delete |  page up  | page down  | lefty | righty | escape | upping | downing ; // up | down | 
 
 public <mod> = shift | super | control | alternate ;
 
-public <symbol> = return | tabby | space |colon | semi colon  | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket  | right bracket  | left brace  | right brace  | lepper  | ripen  | squiggle | quote | back quote | double quote | left angle  | right angle  | bang | pound | dollars | percent | cartoon | ampersand | star | underscore | spike | batter | vertical ; // at | 
+<return> = return ; // | return(2) ;
+
+public <symbol> = <return> | tabby | space |colon | semi colon  | dot | comma | dash | plus | equal | slash | backslash | question mark | left bracket  | right bracket  | left brace  | right brace  | lepper  | ripen  | squiggle | quote | back quote | double quote | left angle  | right angle  | bang | pound | dollars | percent | cartoon | ampersand | star | underscore | spike | batter | vertical ; // at | 
 
 public <key> = (<symbol> | <number> | <nonprinting>);
 

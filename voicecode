@@ -340,8 +340,8 @@ key_map = {
         "page-down" : key.K_PAGEDOWN,
         "lefty"      : key.K_LEFT,
         "righty"     : key.K_RIGHT,
-        "upper"        : key.K_UP,
-        "downer"      : key.K_DOWN,
+        "upping"        : key.K_UP,
+        "downing"      : key.K_DOWN,
         "escape"    : key.K_ESCAPE
         }
 

@@ -8,7 +8,7 @@ import <common.common.*> ;
  | (<common.common.type>) 
  | (<common.common.spell>) ;
 
-<nonrepeatable> = <common.common.edit> |  <common.common.click>  | <common.common.control> | <common.common.mod>+ | <common.common.mouse> ;
+<nonrepeatable> = <common.common.edit> |  <common.common.click>  | <common.common.control> | <common.common.mod>+ | <common.common.mouse> | <common.common.key>;
 
 <action> = <repeatable> | <nonrepeatable> ;
 
